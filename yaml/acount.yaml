@@ -1,0 +1,37 @@
+# springboot-app.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-kkh
+  namespace: group1-team7
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: account-kkh
+  template:
+    metadata:
+      labels:
+        app: account-kkh
+    spec:
+      containers:
+      - name: account-kkh
+        image: k8s-vga-worker1:5000/team7-account-kkh:latest
+        imagePullPolicy: Always #IfNotPresent
+        ports:
+        - containerPort: 8083
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-kkh
+  namespace: group1-team7
+spec:
+  selector:
+    app: account-kkh
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8083
+      nodePort: 30740
+  type: NodePort
