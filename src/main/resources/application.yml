@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: "local"
+    active: local, prod
   application:
     name: "accounts"
   datasource:
@@ -22,7 +22,7 @@ spring:
   cloud:
     openfeign:
       circuitbreaker:
-        enabled: true
+        # enabled: true
 
 management:
   endpoints:
@@ -38,10 +38,13 @@ management:
 
 eureka:
   instance:
-    preferIpAddress: true
+    lease-renewal-interval-in-seconds: 30  # 기본값 30 → 10초마다 갱신 요청
+    lease-expiration-duration-in-seconds: 90  # 기본값 90 → 30초 이상 갱신 없으면 제거
+    prefer-ip-address: true # Pod의 호스트명을 Eureka에 등록하도록 설정
   client:
-    fetchRegistry: true
-    registerWithEureka: true
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 30  # 기본값 30 → 5초마다 Eureka 서버에서 인스턴스 정보 가져오기
 
 info:
   app:
