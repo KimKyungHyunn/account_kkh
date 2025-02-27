@@ -5,7 +5,7 @@ metadata:
   name: account-kkh
   namespace: group1-team7
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: account-kkh
