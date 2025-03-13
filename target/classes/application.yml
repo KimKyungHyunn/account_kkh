@@ -1,79 +1,82 @@
 server:
-  port: 9206
+  port: 9202
 
 spring:
   profiles:
-    active: local, prod
+    active: local
   application:
-    name: "accounts"
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
-  h2:
-    console:
-      enabled: true
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-  cloud:
-    openfeign:
-      circuitbreaker:
-        # enabled: true
+    name: account
+  config:
+    import: "optional:configserver:http://localhost:9200"
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    shutdown:
-      access: unrestricted
-  info:
-    env:
-      enabled: true
+#   datasource:
+#     url: jdbc:h2:mem:testdb
+#     driverClassName: org.h2.Driver
+#     username: sa
+#     password: ''
+#   h2:
+#     console:
+#       enabled: true
+#   jpa:
+#     database-platform: org.hibernate.dialect.H2Dialect
+#     hibernate:
+#       ddl-auto: update
+#     show-sql: true
+#   cloud:
+#     openfeign:
+#       circuitbreaker:
+#         # enabled: true
 
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 30  # 기본값 30 → 10초마다 갱신 요청
-    lease-expiration-duration-in-seconds: 90  # 기본값 90 → 30초 이상 갱신 없으면 제거
-    prefer-ip-address: true # Pod의 호스트명을 Eureka에 등록하도록 설정
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    registry-fetch-interval-seconds: 30  # 기본값 30 → 5초마다 Eureka 서버에서 인스턴스 정보 가져오기
+# management:
+#   endpoints:
+#     web:
+#       exposure:
+#         include: "*"
+#   endpoint:
+#     shutdown:
+#       access: unrestricted
+#   info:
+#     env:
+#       enabled: true
 
-info:
-  app:
-    name: "accounts"
-    description: "Eazy Bank Accounts Application"
-    version: "1.0.0"
+# eureka:
+#   instance:
+#     lease-renewal-interval-in-seconds: 30  # 기본값 30 → 10초마다 갱신 요청
+#     lease-expiration-duration-in-seconds: 90  # 기본값 90 → 30초 이상 갱신 없으면 제거
+#     prefer-ip-address: true # Pod의 호스트명을 Eureka에 등록하도록 설정
+#   client:
+#     register-with-eureka: true
+#     fetch-registry: true
+#     registry-fetch-interval-seconds: 30  # 기본값 30 → 5초마다 Eureka 서버에서 인스턴스 정보 가져오기
 
-resilience4j.circuitbreaker:
-  configs:
-    default:
-      slidingWindowSize: 10
-      permittedNumberOfCallsInHalfOpenState: 2
-      failureRateThreshold: 50
-      waitDurationInOpenState: 10000
+# info:
+#   app:
+#     name: "accounts"
+#     description: "Eazy Bank Accounts Application"
+#     version: "1.0.0"
 
-resilience4j.retry:
-  configs:
-    default:
-      maxAttempts: 3
-      waitDuration: 500
-      enableExponentialBackoff: true
-      exponentialBackoffMultiplier: 2
-      ignoreExceptions:
-        - java.lang.NullPointerException
-      retryExceptions:
-        - java.util.concurrent.TimeoutException
+# resilience4j.circuitbreaker:
+#   configs:
+#     default:
+#       slidingWindowSize: 10
+#       permittedNumberOfCallsInHalfOpenState: 2
+#       failureRateThreshold: 50
+#       waitDurationInOpenState: 10000
 
-logging:
-  level:
-    com:
-      eazybytes:
-        accounts: DEBUG
+# resilience4j.retry:
+#   configs:
+#     default:
+#       maxAttempts: 3
+#       waitDuration: 500
+#       enableExponentialBackoff: true
+#       exponentialBackoffMultiplier: 2
+#       ignoreExceptions:
+#         - java.lang.NullPointerException
+#       retryExceptions:
+#         - java.util.concurrent.TimeoutException
+
+# logging:
+#   level:
+#     com:
+#       eazybytes:
+#         accounts: DEBUG

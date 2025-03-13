@@ -1,8 +1,0 @@
-spring:
-  config:
-    import: "optional:configserver:http://192.168.100.221:30742/"
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://192.168.100.221:30743/eureka/
